@@ -1,0 +1,143 @@
+﻿<Window
+    x:Class="StudentManager.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Student Management System"
+    Width="1200"
+    Height="750"
+    Background="#FFF8EE"
+    WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="#FF8A65" CornerRadius="10"
+                Padding="20" Margin="0,0,0,15">
+            <StackPanel>
+                <TextBlock Text="STUDENT MANAGEMENT SYSTEM"
+                           Foreground="White" FontSize="28" FontWeight="Bold"/>
+                <TextBlock Text="Manage student data"
+                           Foreground="White" FontSize="14" Opacity="0.85"/>
+            </StackPanel>
+        </Border>
+
+        <!-- FORM + INFORMASI -->
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Form input -->
+            <Border Grid.Column="0" Background="#FFE5D0" CornerRadius="10"
+                    Padding="20" Margin="0,0,15,0">
+                <StackPanel>
+                    <TextBlock Text="NIM"/>
+                    <TextBox Text="{Binding Form.NIM, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="6" Margin="0,2,0,8"/>
+
+                    <TextBlock Text="Nama"/>
+                    <TextBox Text="{Binding Form.Nama, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="6" Margin="0,2,0,8"/>
+
+                    <TextBlock Text="Jurusan"/>
+                    <ComboBox SelectedValue="{Binding Form.Jurusan}"
+                              SelectedValuePath="Content"
+                              Padding="6" Margin="0,2,0,8">
+                        <ComboBoxItem>Informatika</ComboBoxItem>
+                        <ComboBoxItem>Sistem Informasi</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Gender"/>
+                    <ComboBox SelectedValue="{Binding Form.Gender}"
+                              SelectedValuePath="Content"
+                              Padding="6" Margin="0,2,0,8">
+                        <ComboBoxItem>Laki-laki</ComboBoxItem>
+                        <ComboBoxItem>Perempuan</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Email"/>
+                    <TextBox Text="{Binding Form.Email, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="6" Margin="0,2,0,12"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Simpan" Command="{Binding SaveCommand}"
+                                Background="#1976D2" Foreground="White"
+                                Padding="20,10" Margin="0,0,10,0"/>
+                        <Button Content="Hapus" Command="{Binding DeleteCommand}"
+                                Background="#D32F2F" Foreground="White"
+                                Padding="20,10" Margin="0,0,10,0"/>
+                        <Button Content="Reset" Command="{Binding ResetCommand}"
+                                Padding="20,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Informasi / statistik -->
+            <Border Grid.Column="1" Background="#FFE5D0" CornerRadius="10" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="INFORMASI" FontSize="20" FontWeight="Bold"/>
+
+                    <TextBlock Text="Total Mahasiswa" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding TotalStudents}" FontSize="32" FontWeight="Bold"/>
+
+                    <TextBlock Text="Informatika"/>
+                    <TextBlock Text="{Binding TotalInformatika}" FontSize="24"/>
+
+                    <TextBlock Text="Sistem Informasi"/>
+                    <TextBlock Text="{Binding TotalSistemInformasi}" FontSize="24"/>
+
+                    <TextBlock Text="Laki-laki"/>
+                    <TextBlock Text="{Binding TotalLakiLaki}" FontSize="24"/>
+
+                    <TextBlock Text="Perempuan"/>
+                    <TextBlock Text="{Binding TotalPerempuan}" FontSize="24"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- SEARCH -->
+        <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="10" Margin="0,0,10,0"/>
+            <Button Grid.Column="1" Content="Cari"
+                    Command="{Binding SearchCommand}" Padding="25,10"/>
+        </Grid>
+
+        <!-- DATAGRID -->
+        <DataGrid Grid.Row="3"
+                  ItemsSource="{Binding Students}"
+                  SelectedItem="{Binding SelectedStudent, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ColumnWidth="*">
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFF3B0"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#FFF3B0"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black"/>
+            </DataGrid.Resources>
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NIM" Binding="{Binding NIM}"/>
+                <DataGridTextColumn Header="Nama" Binding="{Binding Nama}"/>
+                <DataGridTextColumn Header="Jurusan" Binding="{Binding Jurusan}"/>
+                <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
